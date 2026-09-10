@@ -10,4 +10,6 @@ great-expectations
 pytest
 black
 flake8
+pyarrow
+
 
