@@ -1,0 +1,13 @@
+pandas
+numpy
+scikit-learn
+xgboost
+mlflow
+fastapi
+uvicorn
+prometheus-client
+great-expectations
+pytest
+black
+flake8
+
