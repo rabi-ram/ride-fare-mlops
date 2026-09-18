@@ -5,7 +5,6 @@ on:
 
 jobs:
   train:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,13 +20,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-training.txt
 
-      - name: Download dataset
-        run: |
-          python src/ingestion/ingest.py
-
       - name: Build features
         run: |
           python src/features/build_features.py
+
+      - name: Reset MLflow tracking
+        run: |
+          rm -f mlflow.db
+          rm -rf mlruns
 
       - name: Train model
         run: |
@@ -37,5 +37,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mlruns
-          path: mlruns/
+          path: |
+            mlruns/
+            mlflow.db
 
+            
