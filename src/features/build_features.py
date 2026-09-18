@@ -28,13 +28,10 @@ def build_features():
 
     df["pickup_hour"] = df["tpep_pickup_datetime"].dt.hour
 
-    df["pickup_day_of_week"] = (
-        df["tpep_pickup_datetime"].dt.dayofweek
-    )
+    df["pickup_day_of_week"] = df["tpep_pickup_datetime"].dt.dayofweek
 
     df["trip_duration_min"] = (
-        df["tpep_dropoff_datetime"] -
-        df["tpep_pickup_datetime"]
+        df["tpep_dropoff_datetime"] - df["tpep_pickup_datetime"]
     ).dt.total_seconds() / 60
 
     df = df[df["trip_duration_min"] > 0]
@@ -53,5 +50,3 @@ def build_features():
 
 if __name__ == "__main__":
     build_features()
-
-    

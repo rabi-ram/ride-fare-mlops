@@ -1,0 +1,23 @@
+artifact_path: /home/rabi/Projects/ride-fare-mlops/mlruns/1/models/m-438e6349e0a74e3abcd8a600732c833d/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.13
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+mlflow_version: 3.16.0
+model_id: m-438e6349e0a74e3abcd8a600732c833d
+model_size_bytes: 8441124
+model_uuid: m-438e6349e0a74e3abcd8a600732c833d
+prompts: null
+run_id: e6fa5b2144b74a7c9bb1e9f10baf0448
+utc_time_created: '2026-09-12 07:20:44.915480'

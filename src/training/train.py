@@ -73,28 +73,36 @@ def build_pipeline(model):
         "DOLocationID",
     ]
 
-    preprocessor = ColumnTransformer([
-        (
-            "num",
-            Pipeline([
-                ("imputer", SimpleImputer(strategy="median")),
-            ]),
-            numeric,
-        ),
-        (
-            "cat",
-            Pipeline([
-                ("imputer", SimpleImputer(strategy="most_frequent")),
-                ("encoder", OneHotEncoder(handle_unknown="ignore")),
-            ]),
-            categorical,
-        ),
-    ])
+    preprocessor = ColumnTransformer(
+        [
+            (
+                "num",
+                Pipeline(
+                    [
+                        ("imputer", SimpleImputer(strategy="median")),
+                    ]
+                ),
+                numeric,
+            ),
+            (
+                "cat",
+                Pipeline(
+                    [
+                        ("imputer", SimpleImputer(strategy="most_frequent")),
+                        ("encoder", OneHotEncoder(handle_unknown="ignore")),
+                    ]
+                ),
+                categorical,
+            ),
+        ]
+    )
 
-    return Pipeline([
-        ("preprocessor", preprocessor),
-        ("model", model),
-    ])
+    return Pipeline(
+        [
+            ("preprocessor", preprocessor),
+            ("model", model),
+        ]
+    )
 
 
 # -------------------------------------------------
@@ -182,4 +190,3 @@ if __name__ == "__main__":
         y_train,
         y_test,
     )
-

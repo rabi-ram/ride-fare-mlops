@@ -3,8 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 DATA_URL = (
-    "https://d37ci6vzurychx.cloudfront.net/trip-data/"
-    "yellow_tripdata_2025-01.parquet"
+    "https://d37ci6vzurychx.cloudfront.net/trip-data/" "yellow_tripdata_2025-01.parquet"
 )
 
 RAW_DATA_DIR = Path("data/raw")
@@ -27,5 +26,3 @@ def download_data():
 
 if __name__ == "__main__":
     download_data()
-
-    

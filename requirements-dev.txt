@@ -1,0 +1,10 @@
+-r requirements-api.txt
+
+# great-expectations==1.6.3
+pytest==8.4.2
+httpx==0.28.1
+black==25.1.0
+flake8==7.3.0
+prometheus-client==0.23.1
+
+

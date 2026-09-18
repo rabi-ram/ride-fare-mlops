@@ -16,18 +16,17 @@ def validate_dataset():
     print(f"Columns: {len(df.columns)}")
 
     # Schema
-    assert len(df.columns) == EXPECTED_COLUMNS, \
-        f"Expected {EXPECTED_COLUMNS} columns, found {len(df.columns)}"
+    assert (
+        len(df.columns) == EXPECTED_COLUMNS
+    ), f"Expected {EXPECTED_COLUMNS} columns, found {len(df.columns)}"
 
     # Null check
     pickup_nulls = df["tpep_pickup_datetime"].isna().sum()
-    assert pickup_nulls == 0, \
-        f"Pickup datetime has {pickup_nulls} null values"
+    assert pickup_nulls == 0, f"Pickup datetime has {pickup_nulls} null values"
 
     # Passenger count report
     invalid_passengers = df[
-        ~df["passenger_count"].isna() &
-        ~df["passenger_count"].between(1, 6)
+        ~df["passenger_count"].isna() & ~df["passenger_count"].between(1, 6)
     ]
 
     print(f"Invalid passenger rows: {len(invalid_passengers):,}")
@@ -39,13 +38,13 @@ def validate_dataset():
 
     # Distance
     negative_distance = (df["trip_distance"] < 0).sum()
-    assert negative_distance == 0, \
-        f"{negative_distance} rows have negative trip distance"
+    assert (
+        negative_distance == 0
+    ), f"{negative_distance} rows have negative trip distance"
 
     # Fare
     invalid_fare = (df["fare_amount"] <= 0).sum()
-    assert invalid_fare == 0, \
-        f"{invalid_fare} rows have invalid fare"
+    assert invalid_fare == 0, f"{invalid_fare} rows have invalid fare"
 
     duplicates = df.duplicated().sum()
     print(f"Duplicate rows: {duplicates:,}")
@@ -55,5 +54,3 @@ def validate_dataset():
 
 if __name__ == "__main__":
     validate_dataset()
-
-    
