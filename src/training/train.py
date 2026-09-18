@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 
 import mlflow
+from mlflow.tracking import MlflowClient
 import mlflow.sklearn
 import pandas as pd
 
@@ -16,6 +17,13 @@ from sklearn.preprocessing import OneHotEncoder
 from xgboost import XGBRegressor
 
 DATA_PATH = Path("data/processed/taxi_features.parquet")
+
+# MLflow configuration
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+MLFLOW_DB = PROJECT_ROOT / "mlflow.db"
+ARTIFACT_ROOT = PROJECT_ROOT / "mlruns"
+
+mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
 
 # Environment configuration
 SAMPLE_SIZE = os.getenv("SAMPLE_SIZE")
@@ -146,7 +154,19 @@ def train_model(
 # -------------------------------------------------
 if __name__ == "__main__":
 
-    mlflow.set_experiment("ride-fare-mlops")
+    client = MlflowClient()
+
+    experiment_name = "ride-fare-mlops"
+
+    experiment = client.get_experiment_by_name(experiment_name)
+
+    if experiment is None:
+        client.create_experiment(
+            name=experiment_name,
+            artifact_location=str(ARTIFACT_ROOT),
+        )
+
+    mlflow.set_experiment(experiment_name)
 
     sample_size = int(SAMPLE_SIZE) if SAMPLE_SIZE else None
 
