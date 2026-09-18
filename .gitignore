@@ -9,6 +9,9 @@ __pycache__/
 # MLflow
 mlruns/
 
+# MLflow local metadata
+mlflow.db
+
 # VS Code
 .vscode/
 
