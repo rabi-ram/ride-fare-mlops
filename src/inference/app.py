@@ -27,5 +27,3 @@ def health():
 def predict(request: FareRequest):
     fare = predict_fare(request.model_dump())
     return {"predicted_fare": round(fare, 2)}
-
-    
