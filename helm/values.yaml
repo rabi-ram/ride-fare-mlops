@@ -1,0 +1,27 @@
+replicaCount: 2
+
+image:
+  repository: 227469555709.dkr.ecr.ap-south-1.amazonaws.com/ride-fare-api
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8000
+
+container:
+  port: 8000
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+ingress:
+  enabled: true
+
+  
+

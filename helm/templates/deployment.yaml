@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ride-fare-api
+  labels:
+    app: ride-fare-api
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: ride-fare-api
+
+  template:
+    metadata:
+      labels:
+        app: ride-fare-api
+
+    spec:
+      containers:
+        - name: ride-fare-api
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.container.port }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+            

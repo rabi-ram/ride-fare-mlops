@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: ride-fare-api
+
+spec:
+  type: {{ .Values.service.type }}
+
+  selector:
+    app: ride-fare-api
+
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.container.port }}
+      protocol: TCP
+
+      
