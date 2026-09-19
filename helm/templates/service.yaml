@@ -3,6 +3,8 @@ kind: Service
 
 metadata:
   name: ride-fare-api
+  labels:
+    app: ride-fare-api      # <-- Add this
 
 spec:
   type: {{ .Values.service.type }}
@@ -11,7 +13,8 @@ spec:
     app: ride-fare-api
 
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http
+      port: {{ .Values.service.port }}
       targetPort: {{ .Values.container.port }}
       protocol: TCP
 

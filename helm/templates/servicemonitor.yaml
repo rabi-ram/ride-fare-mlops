@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+
+metadata:
+  name: ride-fare-api
+  labels:
+    release: monitoring
+
+spec:
+  selector:
+    matchLabels:
+      app: ride-fare-api
+
+  namespaceSelector:
+    matchNames:
+      - ride-fare
+
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+
+      
