@@ -1,26 +1,32 @@
 name: Release to Amazon EKS
 
 on:
-  workflow_run:
-    workflows: ["Deploy to Amazon ECR"]
-    types:
-      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   release:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure kubectl
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Configure kubeconfig
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-          chmod 600 ~/.kube/config
+          aws eks update-kubeconfig \
+            --region ${{ secrets.AWS_REGION }} \
+            --name ride-fare-eks
 
       - name: Install Helm
         uses: azure/setup-helm@v4
@@ -29,12 +35,13 @@ jobs:
         run: |
           helm upgrade --install ride-fare-api ./helm \
             --namespace ride-fare \
-            --set image.tag=${{ github.event.workflow_run.head_sha }}
+            --create-namespace \
+            --set image.tag=${{ github.sha }}
 
       - name: Verify deployment
         run: |
-          kubectl rollout status deployment/ride-fare-api -n ride-fare
           kubectl get pods -n ride-fare
+          kubectl get svc -n ride-fare
           kubectl get ingress -n ride-fare
 
           
